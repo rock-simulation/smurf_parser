@@ -1,0 +1,8 @@
+# apped the path where configmaps was installed
+list(APPEND CMAKE_MODULE_PATH @CMAKE_INSTALL_PREFIX@/share/smurf_parser/cmake)
+
+# we also append the path based on the install prefix, which allows to move or
+# copy the install folder path
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/share/smurf_parser/cmake)
+
+include(smurf_parser)

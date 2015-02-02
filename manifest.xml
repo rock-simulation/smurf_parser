@@ -1,0 +1,15 @@
+<package>
+    <description brief="smurf_parser">
+       Plugin to load SMURF files.
+    </description>
+
+    <depend package="configmaps" />
+    
+    <depend package="base/console_bridge" />
+    <depend package="control/urdfdom" />
+    <depend package="control/urdfdom_headers" />
+
+    <rosdep name="boost" />
+
+    <tags>needs_opt</tags>
+</package>
