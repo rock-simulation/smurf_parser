@@ -17,6 +17,7 @@ CMAKE_USE_FULL_RPATH("${CMAKE_INSTALL_PREFIX}/lib")
 cmake_minimum_required(VERSION 2.6)
 include(FindPkgConfig)
 
+find_package(mars)
 define_module_info()
 
 #find_package(Doxygen)
@@ -25,7 +26,7 @@ define_module_info()
 #add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
 #endif(DOXYGEN_FOUND)
 
-find_package(Boost REQUIRED system thread)
+find_package(Boost REQUIRED filesystem system thread)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
@@ -45,7 +46,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 #Get linker and compiler flags from pkg-config
 pkg_check_modules(PKGCONFIG REQUIRED
-			    configmaps
+			    #configmaps
+			    mars_utils
                 urdfdom
 )
 
@@ -84,7 +86,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
             ${QT_QTXML_LIBRARY}
             ${PKGCONFIG_LIBRARIES}
             ${WIN_LIBS}
-            z
+            ${Boost_LIBRARIES}
 )
 
 

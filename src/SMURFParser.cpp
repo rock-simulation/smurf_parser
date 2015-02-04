@@ -30,30 +30,31 @@
 
 namespace smurf_parser {
 
-  boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
+  boost::shared_ptr<urdf::ModelInterface> parseFile(mars::utils::ConfigMap* map,
           std::string path, std::string smurffilename, bool expandURIs) {
-    // retrieve yaml data
-    map->fromYamlFile(path+smurffilename, expandURIs);
+
 
     // parse yaml data and write to provided map, identify path to URDF file
+    map->append(mars::utils::ConfigMap::fromYamlFile(path+smurffilename, expandURIs));
+    fprintf(stderr, "blub: %s\n", (path+smurffilename).c_str());
+    map->toYamlFile("testblub.yml");
     std::string urdfpath = "";
-    configmaps::ConfigVector::iterator it;
+    mars::utils::ConfigVector::iterator it;
     for(it = (*map)["files"].begin(); it!=(*map)["files"].end(); ++it) {
       boost::filesystem::path filepath((std::string)(*it));
       if(filepath.extension().generic_string() == ".urdf") {
         urdfpath = path + filepath.generic_string();
       }
       else if(filepath.extension() == ".yml") {
-        configmaps::ConfigMap tmpconfig =
-            configmaps::ConfigMap::fromYamlFile(path+filepath.generic_string());
-        (*map)[filepath.stem().generic_string()] = tmpconfig; //FIXME: use name IN the file?
+        mars::utils::ConfigMap tmpconfig =
+            mars::utils::ConfigMap::fromYamlFile(path+filepath.generic_string());
+        (*map).append(tmpconfig);
       }
     }
 
     // parse URDF model and return
     fprintf(stderr, "  ...loading urdf data from %s.\n", urdfpath.c_str());
     boost::shared_ptr<urdf::ModelInterface> model = urdf::parseURDFFile(urdfpath);
-    urdf::Joint ajoint;
     if (!model) {
       return boost::shared_ptr<urdf::ModelInterface>();
     }
