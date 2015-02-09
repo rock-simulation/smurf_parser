@@ -17,7 +17,7 @@ CMAKE_USE_FULL_RPATH("${CMAKE_INSTALL_PREFIX}/lib")
 cmake_minimum_required(VERSION 2.6)
 include(FindPkgConfig)
 
-find_package(mars)
+find_package(lib_manager)
 define_module_info()
 
 #find_package(Doxygen)
@@ -46,9 +46,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 #Get linker and compiler flags from pkg-config
 pkg_check_modules(PKGCONFIG REQUIRED
-			    #configmaps
-			    mars_utils
-                urdfdom
+			    configmaps
+          urdfdom
 )
 
 include_directories(${PKGCONFIG_INCLUDE_DIRS})
