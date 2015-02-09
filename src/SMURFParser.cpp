@@ -30,24 +30,24 @@
 
 namespace smurf_parser {
 
-  boost::shared_ptr<urdf::ModelInterface> parseFile(mars::utils::ConfigMap* map,
+  boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
           std::string path, std::string smurffilename, bool expandURIs) {
 
 
     // parse yaml data and write to provided map, identify path to URDF file
-    map->append(mars::utils::ConfigMap::fromYamlFile(path+smurffilename, expandURIs));
+    map->append(configmaps::ConfigMap::fromYamlFile(path+smurffilename, expandURIs));
     fprintf(stderr, "blub: %s\n", (path+smurffilename).c_str());
     map->toYamlFile("testblub.yml");
     std::string urdfpath = "";
-    mars::utils::ConfigVector::iterator it;
+    configmaps::ConfigVector::iterator it;
     for(it = (*map)["files"].begin(); it!=(*map)["files"].end(); ++it) {
       boost::filesystem::path filepath((std::string)(*it));
       if(filepath.extension().generic_string() == ".urdf") {
         urdfpath = path + filepath.generic_string();
       }
       else if(filepath.extension() == ".yml") {
-        mars::utils::ConfigMap tmpconfig =
-            mars::utils::ConfigMap::fromYamlFile(path+filepath.generic_string());
+        configmaps::ConfigMap tmpconfig =
+            configmaps::ConfigMap::fromYamlFile(path+filepath.generic_string());
         (*map).append(tmpconfig);
       }
     }
