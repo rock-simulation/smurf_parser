@@ -3,7 +3,7 @@
        Plugin to load SMURF files.
     </description>
 
-    <depend package="configmaps" />
+    <depend package="simulation/configmaps" />
     
     <depend package="base/console_bridge" />
     <depend package="control/urdfdom" />
