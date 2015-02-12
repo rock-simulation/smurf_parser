@@ -48,6 +48,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 pkg_check_modules(PKGCONFIG REQUIRED
 			    configmaps
           urdfdom
+	  tinyxml
 )
 
 include_directories(${PKGCONFIG_INCLUDE_DIRS})
