@@ -36,8 +36,7 @@ namespace smurf_parser {
 
     // parse yaml data and write to provided map, identify path to URDF file
     map->append(configmaps::ConfigMap::fromYamlFile(path+smurffilename, expandURIs));
-    fprintf(stderr, "blub: %s\n", (path+smurffilename).c_str());
-    map->toYamlFile("testblub.yml");
+    //map->toYamlFile("smurfparserdebug.yml");
     std::string urdfpath = "";
     configmaps::ConfigVector::iterator it;
     for(it = (*map)["files"].begin(); it!=(*map)["files"].end(); ++it) {
