@@ -24,10 +24,10 @@ In these YAML files, information can be linked to specific parts of the robot by
 
 ## Extensibility
 
-Apart from a core set of defined features such as the ones listed above, SMURF provides the user with the freedom of specifying any kind of information related to any part of the robot or the model as a whole, using a subset of the YAML syntax. The existing C++ SMURF parser recursively traverses the entire SMURF file tree and provides all the data of the model in an easy-to-work-with data format called a ConfigMap, which is a C++ implementation of a Python dictionary using templates. The parser is currently distributed as part of the [MARS simulation on GitHub](http://github.com/rock-simulation/mars).
+Apart from a core set of defined features such as the ones listed above, SMURF provides the user with the freedom of specifying any kind of information related to any part of the robot or the model as a whole, using a subset of the YAML syntax. The existing C++ SMURF parser recursively traverses the entire SMURF file tree and provides all the data of the model in an easy-to-work-with data format called a ConfigMap, which is a C++ implementation of a Python dictionary using templates. The parser was originally part of the [MARS simulation](http://github.com/rock-simulation/mars), but has since been turned into a separate library.
 
 
 ## Compatibility & Editing
 
-SMURF is compatible with the MARS simulation and will be compatible with future versions of the Rock robotics framework. URDFs contained in SMURF do not have any custom tags and are thus compatible with the ROS robotics framework and the Gazebo simulation.
+SMURF is compatible with the [MARS simulation](http://github.com/rock-simulation/mars) and will be compatible with future versions of the Rock robotics framework. URDFs contained in SMURF do not have any custom tags and are thus compatible with the ROS robotics framework and the Gazebo simulation.
 Phobos is a plugin for the free 3D modelling software Blender, turning the latter into a powerful tool for creating and editing SMURF robot models. It is itself open source software, distributed under the LPGL license, and is [hosted on GitHub](http://github.com/rock-simulation/phobos).
