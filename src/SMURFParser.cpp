@@ -60,7 +60,7 @@ namespace smurf_parser {
     return model;
   }
 
-void getFilePath(std::string path,configmaps::ConfigMap* map, std::string smurffilename, std::string &absolute_urdf_path,std::string &absolute_srd_fpath, std::vector<std::string> &absolute_conf_yml_files)
+void getFilePath(std::string path,configmaps::ConfigMap* map, std::string smurffilename,bool expandURIs ,std::string &absolute_urdf_path,std::string &absolute_srd_fpath, std::vector<std::string> &absolute_conf_yml_files)
 {
     map->append(configmaps::ConfigMap::fromYamlFile(path+smurffilename, expandURIs));
     configmaps::ConfigVector::iterator it;
