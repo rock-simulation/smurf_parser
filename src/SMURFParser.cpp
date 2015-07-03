@@ -60,4 +60,28 @@ namespace smurf_parser {
     return model;
   }
 
+void getFilePath(std::string path,configmaps::ConfigMap* map, std::string smurffilename, std::string &absolute_urdf_path,std::string absolute_srd_fpath, std::vector<std::string> absolute_conf_yml_files)
+{
+    map->append(configmaps::ConfigMap::fromYamlFile(path+smurffilename, expandURIs));
+    configmaps::ConfigVector::iterator it;
+    for(it = (*map)["files"].begin(); it!=(*map)["files"].end(); ++it)
+    {
+        boost::filesystem::path filepath((std::string)(*it));
+        if(filepath.extension().generic_string() == ".urdf")
+        {
+            absolute_urdf_path = path + filepath.generic_string();
+        }
+        if(filepath.extension().generic_string() == ".srdf")
+        {
+            absolute_srd_fpath=path + filepath.generic_string();
+
+        }
+        else if(filepath.extension() == ".yml")
+        {
+            absolute_conf_yml_files.push_back(path+filepath.generic_string());
+        }
+    }
+    return;
+}
+
 }
