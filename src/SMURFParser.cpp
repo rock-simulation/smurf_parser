@@ -60,25 +60,66 @@ namespace smurf_parser {
     return model;
   }
 
-void getFilePath(std::string path,configmaps::ConfigMap* map, std::string smurffilename,bool expandURIs ,std::string &absolute_urdf_path,std::string &absolute_srd_fpath, std::vector<std::string> &absolute_conf_yml_files)
+
+
+boost::filesystem::path resolve_path( const boost::filesystem::path& p, const boost::filesystem::path& base )
+{
+    boost::filesystem::path abs_p = boost::filesystem::absolute(p,base);
+    boost::filesystem::path result;
+    for(boost::filesystem::path::iterator it=abs_p.begin(); it!=abs_p.end(); ++it)
+    {
+        if(*it == "..")
+        {
+            // /a/b/.. is not necessarily /a if b is a symbolic link
+            if(boost::filesystem::is_symlink(result) )
+            result /= *it;
+            // /a/b/../.. is not /a/b/.. under most circumstances
+            // We can end up with ..s in our result because of symbolic links
+            else if(result.filename() == "..")
+            result /= *it;
+            // Otherwise it should be safe to resolve the parent
+            else
+            result = result.parent_path();
+        }
+        else if(*it == ".")
+        {
+            // Ignore
+        }
+        else
+        {
+            // Just cat other path entries
+            result /= *it;
+        }
+    }
+    return result;
+}
+
+
+
+void getFilesAbsolutePath(std::string path,configmaps::ConfigMap* map, std::string smurffilename,bool expandURIs ,std::string &absolute_urdf_path,std::string &absolute_srd_fpath, std::vector<std::string> &absolute_conf_yml_files)
 {
     map->append(configmaps::ConfigMap::fromYamlFile(path+smurffilename, expandURIs));
     configmaps::ConfigVector::iterator it;
+    boost::filesystem::path abs_path_of_file;
+
+
     for(it = (*map)["files"].begin(); it!=(*map)["files"].end(); ++it)
     {
         boost::filesystem::path filepath((std::string)(*it));
         if(filepath.extension().generic_string() == ".urdf")
         {
-            absolute_urdf_path = path + filepath.generic_string();
+            abs_path_of_file=resolve_path(filepath.generic_string(),path) ;
+            absolute_urdf_path=abs_path_of_file.string();
         }
         if(filepath.extension().generic_string() == ".srdf")
         {
-            absolute_srd_fpath=path + filepath.generic_string();
-
+            abs_path_of_file=resolve_path(filepath.generic_string(),path) ;
+            absolute_srd_fpath=abs_path_of_file.string();
         }
         else if(filepath.extension() == ".yml")
         {
-            absolute_conf_yml_files.push_back(path+filepath.generic_string());
+            abs_path_of_file=resolve_path(filepath.generic_string(),path) ;
+            absolute_conf_yml_files.push_back(abs_path_of_file.string() );
         }
     }
     return;
