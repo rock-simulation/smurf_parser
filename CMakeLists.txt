@@ -1,4 +1,6 @@
 project(smurf_parser)
+#set(CMAKE_BUILD_TYPE Debug)
+
 set(PROJECT_VERSION 1.0)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR} "${PROJECT_SOURCE_DIR}/cmake")
 cmake_minimum_required(VERSION 2.6)
@@ -112,3 +114,8 @@ install(FILES ${SOURCES_H} DESTINATION include/smurf_parser)
 
 configure_file(${PROJECT_NAME}.pc.in ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.pc DESTINATION lib/pkgconfig)
+
+
+add_executable(test_smurf_parser src/test_smurf_parser.cpp ${SOURCES_H} ${TARGET_SRC} )
+target_link_libraries(test_smurf_parser ${PROJECT_NAME} ${QT_LIBRARIES} ${QT_QTXML_LIBRARY} ${PKGCONFIG_LIBRARIES} ${WIN_LIBS} ${Boost_LIBRARIES})
+
