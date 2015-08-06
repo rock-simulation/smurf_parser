@@ -55,7 +55,7 @@ include_directories(${PKGCONFIG_INCLUDE_DIRS})
 link_directories(${PKGCONFIG_LIBRARY_DIRS})
 add_definitions(${PKGCONFIG_CFLAGS_OTHER})  #flags excluding the ones with -I
 
-set(ADD_INCLUDES "-I${QT_INCLUDE_DIR} -I${QT_QTXML_INCLUDE_DIR}")
+#set(ADD_INCLUDES "-I${QT_INCLUDE_DIR} -I${QT_QTXML_INCLUDE_DIR}")
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
