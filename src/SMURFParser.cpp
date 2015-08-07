@@ -33,6 +33,7 @@ namespace smurf_parser {
   boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
           std::string path, std::string smurffilename, bool expandURIs) {
 
+    path+="/"; // secure that path and file are combined correctly
 
     // parse yaml data and write to provided map, identify path to URDF file
     map->append(configmaps::ConfigMap::fromYamlFile(path+smurffilename, expandURIs));
