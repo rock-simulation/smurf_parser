@@ -20,7 +20,7 @@
 
 /**
  * \file SMURFParser.h
- * \author Kai von Szadkowski
+ * \author Kai von Szadkowski, Behnam Asadi
  */
 #ifndef SMURF_PARSER_H
 #define SMURF_PARSER_H
@@ -37,6 +37,9 @@ namespace smurf_parser {
 
     boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
       std::string path, std::string smurffilename, bool expandURIs);
+
+    void getAbsoluteFilePaths(std::string path, configmaps::ConfigMap* map, std::string smurffilename, bool expandURIs,
+        std::string &absolute_urdf_path, std::string &absolute_srdf_path, std::vector<std::string> &absolute_conf_yml_files);
 
 } // end of namespace smurf_parser
 
