@@ -20,6 +20,8 @@ include(FindPkgConfig)
 find_package(lib_manager)
 define_module_info()
 
+add_definitions(-std=c++11)
+
 #find_package(Doxygen)
 #if(DOXYGEN_FOUND)
 #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
