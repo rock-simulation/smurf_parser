@@ -30,7 +30,7 @@
 
 namespace smurf_parser {
 
-  boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
+  std::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
           std::string path, std::string smurffilename, bool expandURIs) {
 
     path+="/"; // secure that path and file are combined correctly
@@ -54,9 +54,9 @@ namespace smurf_parser {
 
     // parse URDF model and return
     fprintf(stderr, "  ...loading urdf data from %s.\n", urdfpath.c_str());
-    boost::shared_ptr<urdf::ModelInterface> model = urdf::parseURDFFile(urdfpath);
+    std::shared_ptr<urdf::ModelInterface> model = urdf::parseURDFFile(urdfpath);
     if (!model) {
-      return boost::shared_ptr<urdf::ModelInterface>();
+      return std::shared_ptr<urdf::ModelInterface>();
     }
     return model;
   }

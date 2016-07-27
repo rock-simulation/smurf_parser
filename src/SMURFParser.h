@@ -35,7 +35,7 @@
 
 namespace smurf_parser {
 
-    boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
+    std::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
       std::string path, std::string smurffilename, bool expandURIs);
 
 } // end of namespace smurf_parser
