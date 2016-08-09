@@ -30,7 +30,45 @@
 
 namespace smurf_parser {
 
-  boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
+  
+  /**Replaces relative paths inside the urdf model with absolut paths. */
+  void relativeToAbsolut(urdf::ModelInterfaceSharedPtr model,
+                         const std::string& urdfPathStr)
+  {
+    assert(urdfPathStr.size() > 0);
+    assert(model.get() != NULL);
+    
+    //strip filename from urdf path (if there is one)
+    boost::filesystem::path urdfPath(urdfPathStr);
+    urdfPath.remove_filename(); 
+     
+    std::map<std::string, urdf::LinkSharedPtr >::iterator it;
+    for(it = model->links_.begin(); it != model->links_.end(); ++it)
+    {
+      std::vector<urdf::VisualSharedPtr>& visuals = it->second->visual_array;
+      std::vector<urdf::VisualSharedPtr>::iterator visIt;
+      for(visIt = visuals.begin(); visIt != visuals.end(); ++visIt)
+      {
+        urdf::GeometrySharedPtr geometry = (*visIt)->geometry;
+        if(geometry->type == urdf::Geometry::MESH)
+        {
+          urdf::MeshSharedPtr mesh = urdf::dynamic_pointer_cast<urdf::Mesh>(geometry);
+          assert(mesh != NULL); //otherwise implementation error in parser
+          boost::filesystem::path path(mesh->filename);
+          if(!path.is_absolute())
+          {
+            boost::filesystem::path p(urdfPath);
+            p /= path; //append path to urdfPath
+            p = boost::filesystem::canonical(p); //remove symlinks and ".." 
+            mesh->filename = p.generic_string();
+          }
+        }
+      }
+    }
+  }
+  
+  
+  urdf::ModelInterfaceSharedPtr parseFile(configmaps::ConfigMap* map,
           std::string path, std::string smurffilename, bool expandURIs) {
 
     path+="/"; // secure that path and file are combined correctly
@@ -54,11 +92,16 @@ namespace smurf_parser {
 
     // parse URDF model and return
     fprintf(stderr, "  ...loading urdf data from %s.\n", urdfpath.c_str());
-    boost::shared_ptr<urdf::ModelInterface> model = urdf::parseURDFFile(urdfpath);
+    urdf::ModelInterfaceSharedPtr model = urdf::parseURDFFile(urdfpath);
+    
     if (!model) {
-      return boost::shared_ptr<urdf::ModelInterface>();
+      return urdf::ModelInterfaceSharedPtr();
     }
+    
+    //there might be relative paths inside the model. Since we do not return the urdf path 
+    //there is no easy way for the caller to know to which dir the paths are relativ. 
+    //Therefore they are converted to absolut paths.
+    relativeToAbsolut(model, urdfpath);
     return model;
   }
-
 }
