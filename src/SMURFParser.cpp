@@ -25,12 +25,11 @@
  */
 
 #include "SMURFParser.h"
-#include <urdf_parser/urdf_parser.h>
 #include <boost/filesystem.hpp>
 
 namespace smurf_parser {
 
-  boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
+  urdf::ModelInterfaceSharedPtr parseFile(configmaps::ConfigMap* map,
           std::string path, std::string smurffilename, bool expandURIs) {
 
     path+="/"; // secure that path and file are combined correctly
@@ -54,9 +53,9 @@ namespace smurf_parser {
 
     // parse URDF model and return
     fprintf(stderr, "  ...loading urdf data from %s.\n", urdfpath.c_str());
-    boost::shared_ptr<urdf::ModelInterface> model = urdf::parseURDFFile(urdfpath);
+    urdf::ModelInterfaceSharedPtr model = urdf::parseURDFFile(urdfpath);
     if (!model) {
-      return boost::shared_ptr<urdf::ModelInterface>();
+      return urdf::ModelInterfaceSharedPtr();
     }
     return model;
   }

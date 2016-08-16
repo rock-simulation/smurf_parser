@@ -29,13 +29,13 @@
   #warning "SMURFParser.h"
 #endif
 
-#include <boost/function.hpp>
+#include <urdf_parser/urdf_parser.h>
 #include <urdf_model/model.h>
 #include <configmaps/ConfigData.h>
 
 namespace smurf_parser {
 
-    boost::shared_ptr<urdf::ModelInterface> parseFile(configmaps::ConfigMap* map,
+  urdf::ModelInterfaceSharedPtr parseFile(configmaps::ConfigMap* map,
       std::string path, std::string smurffilename, bool expandURIs);
 
 } // end of namespace smurf_parser
