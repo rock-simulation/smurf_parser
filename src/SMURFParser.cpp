@@ -51,7 +51,19 @@ namespace smurf_parser {
       else if(filepath.extension() == ".yml") {
         configmaps::ConfigMap tmpconfig =
             configmaps::ConfigMap::fromYamlFile(path+filepath.generic_string());
-        (*map).append(tmpconfig);
+        configmaps::ConfigMap::iterator mit = tmpconfig.begin();
+        for(; mit!=tmpconfig.end(); ++mit) {
+          if(mit->second.isVector()) {
+            configmaps::ConfigVector::iterator vit=mit->second.begin();
+            for(; vit!=mit->second.end(); ++vit) {
+              (*map)[mit->first].append(*vit);
+            }
+          }
+          else {
+            (*map)[mit->first].appendMap(mit->second);
+          }
+
+        }
       }
     }
 
