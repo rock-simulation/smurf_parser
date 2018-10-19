@@ -38,6 +38,8 @@ namespace smurf_parser {
   urdf::ModelInterfaceSharedPtr parseFile(configmaps::ConfigMap* map,
       std::string path, std::string smurffilename, bool expandURIs);
 
+    void getFilesAbsolutePath(std::string path,configmaps::ConfigMap* map, std::string smurffilename,bool expandURIs ,std::string &absolute_urdf_path,std::string &absolute_srd_fpath, std::vector<std::string> &absolute_conf_yml_files);
+
 } // end of namespace smurf_parser
 
 #endif  // SMURF_PARSER_H
