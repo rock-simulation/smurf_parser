@@ -36,6 +36,7 @@ namespace smurf_parser {
   urdf::ModelInterfaceSharedPtr parseFile(configmaps::ConfigMap* map,
           std::string path, std::string smurffilename, bool expandURIs) {
 
+    (*map)["loadPath"] = path;
     path+="/"; // secure that path and file are combined correctly
 
     // parse yaml data and write to provided map, identify path to URDF file
