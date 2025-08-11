@@ -4,10 +4,13 @@
     </description>
 
     <depend package="simulation/configmaps" />
+    <depend package="simulation/lib_manager" />
     
     <depend package="base/console_bridge" />
     <depend package="control/urdfdom" />
     <depend package="control/urdfdom_headers" />
+
+    <depend package="external/tinyxml" />
 
     <rosdep name="boost" />
 
